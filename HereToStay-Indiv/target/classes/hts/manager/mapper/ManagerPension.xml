@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+<!-- 1. 모든 게시물 목록 보기 -->
+<select id="boardList" resultType="myproj.board.dto.BoardVO">
+ SELECT * FROM uploadtemp ORDER BY b_id DESC
+</select>
+
+<select id="boardView" resultType="myproj.board.dto.BoardVO">
+ SELECT * FROM uploadtemp where b_id=#{b_id}
+</select>
+
+<!-- 2. 게시물 입력하기 -->
+<insert id="boardInsert" parameterType="myproj.board.dto.BoardVO">
+INSERT INTO uploadtemp 
+( b_id, b_name, b_email, b_content, b_title, b_pwd, b_date, b_count, b_ip
+<if test="b_fname != null">
+,b_fname, b_fsize
+</if>
+)  VALUES( 
+uploadtemp_bid_seq.nextval, #{b_name}, #{b_email},  #{b_content}, #{b_title}, #{b_pwd}, sysdate, 0, #{b_ip}
+<if test="b_fname != null">
+,#{b_fname}, #{b_fsize}
+</if>    
+)s
+</insert>
+
+
+<delete id="boradDelete" parameterType="myproj.board.dto.BoardVO">
+delete from uploadtemp where b_id=#{b_id}
+</delete>
+
+
+</mapper>
